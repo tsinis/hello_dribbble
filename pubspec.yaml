@@ -1,0 +1,23 @@
+name: hello_dribbble
+description: A debut showcase of ineractive Rive animations for Dribbble.com
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flare_flutter: ^2.0.1
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/background.flr
+    - assets/foreground.flr
