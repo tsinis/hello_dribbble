@@ -63,3 +63,4 @@ ehthumbs.db
 Thumbs.db
 fvm
 build\ios/Runner.build/Release-iphoneos/Runner.build/dgph
+.vscode/launch.json

@@ -32,7 +32,7 @@ class Pseudo3DArtboard extends FlutterActorArtboard {
   void setPseudo3D(double point, double roll, double pseudo3DDepth) {
     Matrix4 transform = Matrix4.identity();
     Matrix4 perspective = Matrix4.identity()..setEntry(3, 2, 0.001);
-    transform.multiply(Matrix4.diagonal3Values(0.6, 0.6, 1.0));
+    transform.multiply(Matrix4.diagonal3Values(0.6, 0.6, 1));
     transform.multiply(perspective);
     transform.multiply(Matrix4.rotationY(roll));
     transform.multiply(Matrix4.rotationX(point));
@@ -53,7 +53,7 @@ class Pseudo3DArtboard extends FlutterActorArtboard {
 
         Matrix4 pseudo3DTransform = Matrix4.copy(transform);
         pseudo3DTransform.multiply(Matrix4.translationValues(
-            0, 0, -100 - index * 35 * pseudo3DDepth * 3));
+            0, 0, -100 - index * 35 * pseudo3DDepth * 4));
         (drawable as Pseudo3DDrawable).pseudo3DTransform = pseudo3DTransform;
       }
     }

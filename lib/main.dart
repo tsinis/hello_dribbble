@@ -1,6 +1,7 @@
 import 'package:flare_flutter/flare_actor.dart' show FlareActor;
 import 'package:flutter/material.dart';
 
+import 'ik_controller.dart';
 import 'pseudo3D_widget.dart';
 
 void main() => runApp(MyApp());
@@ -18,25 +19,28 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+  AnimationController _ticketController;
   Animation<double> pseudo3D, depth;
   double point = 0, turn = 0;
+  IKController _ikController = IKController();
 
   @override
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
+    _ticketController = AnimationController(
         duration: const Duration(milliseconds: 500), vsync: this)
-      ..addListener(() {
-        setState(() {
-          if (pseudo3D != null) {
-            point *= pseudo3D.value;
-            turn *= pseudo3D.value;
-          }
-        });
-      });
-    _controller.forward(from: 1);
+      ..addListener(
+        () => setState(
+          () {
+            if (pseudo3D != null) {
+              point *= pseudo3D.value;
+              turn *= pseudo3D.value;
+            }
+          },
+        ),
+      );
+    _ticketController.forward(from: 1);
   }
 
   @override
@@ -45,26 +49,38 @@ class _MyHomePageState extends State<MyHomePage>
         body: GestureDetector(
           onPanUpdate: (DragUpdateDetails drag) {
             setState(() {
-              var size = MediaQuery.of(context).size;
+              Size size = MediaQuery.of(context).size;
               point += drag.delta.dy * (1 / size.height);
               turn -= drag.delta.dx * (1 / size.width);
+              _ikController.moveBall(
+                Offset(
+                    drag.localPosition.dx.clamp(
+                      ((size.width <= size.height)
+                          ? size.width * 0.1
+                          : ((size.width / 2) - (size.height / 2) * 0.8)),
+                      ((size.width <= size.height)
+                          ? size.width * 0.9
+                          : (size.width / 2 + (size.height / 2) * 0.8)),
+                    ),
+                    0),
+              );
             });
           },
           onPanEnd: (DragEndDetails details) {
             pseudo3D = Tween<double>(
               begin: 1,
               end: 0,
-            ).animate(_controller);
+            ).animate(_ticketController);
             depth = Tween<double>(
               begin: 1,
               end: 0,
             ).animate(
               CurvedAnimation(
-                parent: _controller,
+                parent: _ticketController,
                 curve: const Cubic(0.5, 0, 0.25, 1),
               ),
             );
-            _controller.forward();
+            _ticketController.forward();
           },
           onPanStart: (DragStartDetails details) {
             pseudo3D = null;
@@ -73,24 +89,26 @@ class _MyHomePageState extends State<MyHomePage>
               end: 0,
             ).animate(
               CurvedAnimation(
-                parent: _controller,
+                parent: _ticketController,
                 curve: const Cubic(1, 0, 1, 1),
               ),
             );
-            _controller.reverse();
+            _ticketController.reverse();
           },
           child: Stack(
+            // alignment: Alignment.center,
             children: [
               Positioned.fill(
                 child: FlareActor(
                   'assets/background.flr',
                   animation: 'jumping',
+                  controller: _ikController,
                 ),
               ),
               Positioned.fill(
                 child: FlarePseudo3DWidget(
-                  fit: BoxFit.contain,
-                  alignment: Alignment.center,
+                  // fit: BoxFit.contain,
+                  // alignment: Alignment.center,
                   point: point,
                   turn: turn,
                   depth: depth?.value ?? 0,
