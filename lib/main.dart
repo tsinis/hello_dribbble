@@ -22,8 +22,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   AnimationController _ticketController;
-  Animation<double> pseudo3D, depth;
-  double point = 0, turn = 0;
+  Animation<double> _pseudo3D, _depth;
+  double _point = 0.0, _turn = 0.0;
   IKController _ikController = IKController();
 
   @override
@@ -35,49 +35,49 @@ class _MyHomePageState extends State<MyHomePage>
       ..addListener(
         () => setState(
           () {
-            if (pseudo3D != null) {
-              point *= pseudo3D.value;
-              turn *= pseudo3D.value;
+            if (_pseudo3D != null) {
+              _point *= _pseudo3D.value;
+              _turn *= _pseudo3D.value;
             }
           },
         ),
       );
-    _ticketController.forward(from: 1);
+    _ticketController.forward(from: 1.0);
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size _size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: CustomAppBar(height: 30, width: size.width),
-      backgroundColor: const Color.fromRGBO(223, 125, 163, 1),
+      appBar: CustomAppBar(height: 30.0, width: _size.width),
+      backgroundColor: const Color(0xffde7da4),
       body: GestureDetector(
         onPanUpdate: (DragUpdateDetails drag) {
           setState(() {
-            point += drag.delta.dy * (1 / size.height);
-            turn -= drag.delta.dx * (1 / size.width);
+            _point += drag.delta.dy * (1 / _size.height);
+            _turn -= drag.delta.dx * (1 / _size.width);
             _ikController.moveBall(
               Offset(
                   drag.localPosition.dx.clamp(
-                    ((size.width <= size.height)
-                        ? size.width * 0.1
-                        : ((size.width / 2) - (size.height / 2) * 0.8)),
-                    ((size.width <= size.height)
-                        ? size.width * 0.9
-                        : (size.width / 2 + (size.height / 2) * 0.8)),
+                    ((_size.width <= _size.height)
+                        ? _size.width * 0.1
+                        : ((_size.width / 2) - (_size.height / 2) * 0.8)),
+                    ((_size.width <= _size.height)
+                        ? _size.width * 0.9
+                        : (_size.width / 2 + (_size.height / 2) * 0.8)),
                   ),
-                  0),
+                  0.0),
             );
           });
         },
         onPanEnd: (DragEndDetails details) {
-          pseudo3D = Tween<double>(
-            begin: 1,
-            end: 0,
+          _pseudo3D = Tween<double>(
+            begin: 1.0,
+            end: 0.0,
           ).animate(_ticketController);
-          depth = Tween<double>(
-            begin: 1,
-            end: 0,
+          _depth = Tween<double>(
+            begin: 1.0,
+            end: 0.0,
           ).animate(
             CurvedAnimation(
               parent: _ticketController,
@@ -87,14 +87,14 @@ class _MyHomePageState extends State<MyHomePage>
           _ticketController.forward();
         },
         onPanStart: (DragStartDetails details) {
-          pseudo3D = null;
-          depth = Tween<double>(
-            begin: 1,
-            end: 0,
+          _pseudo3D = null;
+          _depth = Tween<double>(
+            begin: 1.0,
+            end: 0.0,
           ).animate(
             CurvedAnimation(
               parent: _ticketController,
-              curve: const Cubic(1, 0, 1, 1),
+              curve: const Cubic(1.0, 0.0, 1.0, 1.0),
             ),
           );
           _ticketController.reverse();
@@ -113,9 +113,9 @@ class _MyHomePageState extends State<MyHomePage>
               child: FlarePseudo3DWidget(
                 // fit: BoxFit.contain,
                 // alignment: Alignment.center,
-                point: point,
-                turn: turn,
-                depth: depth?.value ?? 0,
+                point: _point,
+                turn: _turn,
+                depth: _depth?.value ?? 0.0,
               ),
             ),
           ],

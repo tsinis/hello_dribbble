@@ -17,18 +17,15 @@ class IKController implements FlareController {
       return false;
     }
 
-    // Get inverse of view transform in order to compute world transform of touch coordinates.
     Mat2D inverseViewTransform = Mat2D();
     if (!Mat2D.invert(inverseViewTransform, _viewTransform)) {
       return true;
     }
 
-    // Get screen touch coordinates into world space.
     Vec2D worldTouch = Vec2D();
-    Vec2D.transformMat2D(
-        worldTouch, Vec2D.fromValues(_screenTouch.dx, 0), inverseViewTransform);
+    Vec2D.transformMat2D(worldTouch, Vec2D.fromValues(_screenTouch.dx, 0.0),
+        inverseViewTransform);
 
-    // Get inverse of target's parent space in order to compute proper local values for the target translation.
     Mat2D inverseTargetWorld = Mat2D();
     if (!Mat2D.invert(inverseTargetWorld, _aimTarget.parent.worldTransform)) {
       return true;
@@ -37,7 +34,6 @@ class IKController implements FlareController {
     Vec2D localTouchCoordinates = Vec2D();
     Vec2D.transformMat2D(localTouchCoordinates, worldTouch, inverseTargetWorld);
 
-    // Set the target's translation to the computed local coords.
     _aimTarget.translation = localTouchCoordinates;
     return true;
   }

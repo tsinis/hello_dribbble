@@ -68,7 +68,7 @@ class FlarePseudo3DRenderObject extends FlareRenderBox {
       return;
     }
     _animationTime += elapsed;
-    _writing?.apply(_animationTime % _writing.duration, _artboard, 1);
+    _writing?.apply(_animationTime % _writing.duration, _artboard, 1.0);
     _artboard.setPseudo3D(point, turn, pseudo3DDepth);
     _artboard.advance(elapsed);
   }
@@ -96,7 +96,7 @@ class FlarePseudo3DRenderObject extends FlareRenderBox {
       artboard.initializeGraphics();
       _artboard = artboard;
       _writing = _artboard.getAnimation('dribbble');
-      _artboard.advance(0);
+      _artboard.advance(0.0);
       markNeedsPaint();
     });
   }
