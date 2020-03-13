@@ -1,6 +1,7 @@
 import 'package:flare_flutter/flare_actor.dart' show FlareActor;
 import 'package:flutter/material.dart';
 
+import 'appbar.dart';
 import 'ik_controller.dart';
 import 'pseudo3D_widget.dart';
 
@@ -8,7 +9,8 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => MaterialApp(home: const MyHomePage());
+  Widget build(BuildContext context) =>
+      MaterialApp(debugShowCheckedModeBanner: false, home: const MyHomePage());
 }
 
 class MyHomePage extends StatefulWidget {
@@ -44,78 +46,81 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: const Color.fromRGBO(223, 125, 163, 1),
-        body: GestureDetector(
-          onPanUpdate: (DragUpdateDetails drag) {
-            setState(() {
-              Size size = MediaQuery.of(context).size;
-              point += drag.delta.dy * (1 / size.height);
-              turn -= drag.delta.dx * (1 / size.width);
-              _ikController.moveBall(
-                Offset(
-                    drag.localPosition.dx.clamp(
-                      ((size.width <= size.height)
-                          ? size.width * 0.1
-                          : ((size.width / 2) - (size.height / 2) * 0.8)),
-                      ((size.width <= size.height)
-                          ? size.width * 0.9
-                          : (size.width / 2 + (size.height / 2) * 0.8)),
-                    ),
-                    0),
-              );
-            });
-          },
-          onPanEnd: (DragEndDetails details) {
-            pseudo3D = Tween<double>(
-              begin: 1,
-              end: 0,
-            ).animate(_ticketController);
-            depth = Tween<double>(
-              begin: 1,
-              end: 0,
-            ).animate(
-              CurvedAnimation(
-                parent: _ticketController,
-                curve: const Cubic(0.5, 0, 0.25, 1),
-              ),
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: CustomAppBar(height: 30, width: size.width),
+      backgroundColor: const Color.fromRGBO(223, 125, 163, 1),
+      body: GestureDetector(
+        onPanUpdate: (DragUpdateDetails drag) {
+          setState(() {
+            point += drag.delta.dy * (1 / size.height);
+            turn -= drag.delta.dx * (1 / size.width);
+            _ikController.moveBall(
+              Offset(
+                  drag.localPosition.dx.clamp(
+                    ((size.width <= size.height)
+                        ? size.width * 0.1
+                        : ((size.width / 2) - (size.height / 2) * 0.8)),
+                    ((size.width <= size.height)
+                        ? size.width * 0.9
+                        : (size.width / 2 + (size.height / 2) * 0.8)),
+                  ),
+                  0),
             );
-            _ticketController.forward();
-          },
-          onPanStart: (DragStartDetails details) {
-            pseudo3D = null;
-            depth = Tween<double>(
-              begin: 1,
-              end: 0,
-            ).animate(
-              CurvedAnimation(
-                parent: _ticketController,
-                curve: const Cubic(1, 0, 1, 1),
+          });
+        },
+        onPanEnd: (DragEndDetails details) {
+          pseudo3D = Tween<double>(
+            begin: 1,
+            end: 0,
+          ).animate(_ticketController);
+          depth = Tween<double>(
+            begin: 1,
+            end: 0,
+          ).animate(
+            CurvedAnimation(
+              parent: _ticketController,
+              curve: const Cubic(0.5, 0, 0.25, 1),
+            ),
+          );
+          _ticketController.forward();
+        },
+        onPanStart: (DragStartDetails details) {
+          pseudo3D = null;
+          depth = Tween<double>(
+            begin: 1,
+            end: 0,
+          ).animate(
+            CurvedAnimation(
+              parent: _ticketController,
+              curve: const Cubic(1, 0, 1, 1),
+            ),
+          );
+          _ticketController.reverse();
+        },
+        child: Stack(
+          // alignment: Alignment.center,
+          children: [
+            Positioned.fill(
+              child: FlareActor(
+                'assets/background.flr',
+                animation: 'jumping',
+                controller: _ikController,
               ),
-            );
-            _ticketController.reverse();
-          },
-          child: Stack(
-            // alignment: Alignment.center,
-            children: [
-              Positioned.fill(
-                child: FlareActor(
-                  'assets/background.flr',
-                  animation: 'jumping',
-                  controller: _ikController,
-                ),
+            ),
+            Positioned.fill(
+              child: FlarePseudo3DWidget(
+                // fit: BoxFit.contain,
+                // alignment: Alignment.center,
+                point: point,
+                turn: turn,
+                depth: depth?.value ?? 0,
               ),
-              Positioned.fill(
-                child: FlarePseudo3DWidget(
-                  // fit: BoxFit.contain,
-                  // alignment: Alignment.center,
-                  point: point,
-                  turn: turn,
-                  depth: depth?.value ?? 0,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
