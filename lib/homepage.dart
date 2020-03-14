@@ -97,7 +97,7 @@ class _MyHelloDribblePageState extends State<HelloDribblePage>
           children: [
             Positioned.fill(
               child: FlareActor(
-                'assets/background.flr',
+                'assets/animations/background.flr',
                 animation: 'jumping',
                 controller: _ikController,
               ),

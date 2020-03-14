@@ -54,7 +54,7 @@ class RivePseudo3DRenderObject extends FlareRenderBox {
   double _animationTime = 0.0, point, turn, pseudo3DDepth;
   Pseudo3DArtboard _artboard;
   final AssetProvider _foreground =
-      AssetFlare(bundle: rootBundle, name: 'assets/foreground.flr');
+      AssetFlare(bundle: rootBundle, name: 'assets/animations/foreground.flr');
 
   ActorAnimation _writing;
 
@@ -66,6 +66,7 @@ class RivePseudo3DRenderObject extends FlareRenderBox {
 
   @override
   void advance(double elapsed) {
+    if (_artboard == null) {return;}
     _animationTime += elapsed;
     _writing?.apply(_animationTime % _writing.duration, _artboard, 1.0);
     _artboard.setPseudo3D(point, turn, pseudo3DDepth);

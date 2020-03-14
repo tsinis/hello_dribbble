@@ -44,6 +44,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             ],
             title: const Text(
               'Thanks Ivan Bannikov!',
+              textScaleFactor: 1.0,
               style: const TextStyle(
                 fontSize: 15.0,
                 fontWeight: FontWeight.w100,
