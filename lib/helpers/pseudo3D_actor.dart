@@ -1,29 +1,31 @@
 import 'dart:ui' as ui;
+
+import 'package:flutter/material.dart';
+
 import 'package:flare_dart/actor_artboard.dart';
 import 'package:flare_dart/actor_shape.dart';
 import 'package:flare_dart/actor_image.dart';
 import "package:flare_flutter/flare.dart";
-import 'package:flutter/material.dart';
 
 class Pseudo3DActor extends FlutterActor {
   Pseudo3DActor(FlutterActor source) {
     copyFlutterActor(source);
   }
 
-  static Pseudo3DArtboard instanceArtboard(FlutterActor source) {
-    Pseudo3DActor pseudo3DActor = Pseudo3DActor(source);
-    return source.artboard.makeInstanceWithActor(pseudo3DActor)
-        as Pseudo3DArtboard;
-  }
-
   @override
-  ActorShape makeShapeNode(source) => Pseudo3DActorShape();
+  ActorArtboard makeArtboard() => Pseudo3DArtboard(this);
 
   @override
   ActorImage makeImageNode() => Pseudo3DActorImage();
 
   @override
-  ActorArtboard makeArtboard() => Pseudo3DArtboard(this);
+  ActorShape makeShapeNode(source) => Pseudo3DActorShape();
+
+  static Pseudo3DArtboard instanceArtboard(FlutterActor source) {
+    Pseudo3DActor pseudo3DActor = Pseudo3DActor(source);
+    return source.artboard.makeInstanceWithActor(pseudo3DActor)
+        as Pseudo3DArtboard;
+  }
 }
 
 class Pseudo3DArtboard extends FlutterActorArtboard {
@@ -76,10 +78,6 @@ class Pseudo3DActorShape extends FlutterActorShape implements Pseudo3DDrawable {
 
   @override
   void draw(ui.Canvas _canvas) {
-    if (!doesDraw) {
-      return;
-    }
-
     _canvas.save();
     _canvas.transform(pseudo3DTransform.storage);
     super.draw(_canvas);
@@ -93,10 +91,6 @@ class Pseudo3DActorImage extends FlutterActorImage implements Pseudo3DDrawable {
 
   @override
   void draw(ui.Canvas _canvas) {
-    if (!doesDraw) {
-      return;
-    }
-
     _canvas.save();
     _canvas.transform(pseudo3DTransform.storage);
     super.draw(_canvas);
