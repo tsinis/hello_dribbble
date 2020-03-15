@@ -42,13 +42,16 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 onPressed: () => setState(() => _visible = false),
               ),
             ],
-            title: const Text(
-              'Thanks Ivan Bannikov!',
-              textScaleFactor: 1.0,
-              style: const TextStyle(
-                fontSize: 15.0,
-                fontWeight: FontWeight.w100,
-                color: const Color(0xfffce4ec),
+            title: Align(
+              alignment: Alignment.center,
+              child: const Text(
+                'Thanks Ivan Bannikov!',
+                textScaleFactor: 1.0,
+                style: const TextStyle(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w100,
+                  color: const Color(0xfffce4ec),
+                ),
               ),
             ),
           ),
