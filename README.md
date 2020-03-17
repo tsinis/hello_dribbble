@@ -4,7 +4,7 @@
 
 A interactive animations showcase project, I've made as my **Dribbble** Debut Shot: [dribbble.com/tsinis](https://dribbble.com/tsinis)
 
-![Steampunk Clock Visualisation](hello_dribbble.gif)
+![Hello Dribbble](hello_dribbble.gif)
 
 As you can see ball animation responds to touch/click + drag and so as cherished Dribbble invite ticket, that shows up in 3D. This is mainly made with [Rive](https://rive.app) (ex Flare) tool in [Flutter](https://flutter.dev/) framework. **Those kind of animations can embellish your ticketing, banking, card game etc. apps that simple.** You can see/fork those animations in my Rive [profile](https://rive.app/a/tsinis).
 

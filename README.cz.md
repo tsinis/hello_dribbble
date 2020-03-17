@@ -4,7 +4,7 @@
 
 Toto je projekt ukazující Interaktivní animace, které jsem vytvořil jako svůj **Dribbble** debut: [dribbble.com/tsinis](https://dribbble.com/tsinis)
 
-![Steampunk Clock Visualisation](F:/Desktop/hello/hello_dribbble.gif)
+![Hello Dribbble](hello_dribbble.gif)
 
 Jak vidíte, animace míče reaguje na dotyk/klepnutí + přetažení, stejně tak, jak si můj drahocenný Dribbble lístek, jenž se zobrazí ve 3D. Animaci jsou vytvořené pomoci nástroje [Rive](https://rive.app) (bývalé Flare) ve frameworku [Flutter](https://flutter.dev/). **Tyto druhy animací mohou ozdobit vaše lístky, karetní hry, bankovní apod. aplikace takto jednoduše.** Tyto animace můžete vidět/odvětvit v mém [profilu](https://rive.app/a/tsinis) Rive.
 
