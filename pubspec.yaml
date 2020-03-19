@@ -14,10 +14,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_native_splash: ^0.1.9
+  flutter_native_splash:
   flutter_launcher_icons:
-    git:
-      url: git://github.com/personalizedrefrigerator/flutter_launcher_icons.git
 
 flutter:
   uses-material-design: true
