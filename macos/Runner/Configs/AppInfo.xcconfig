@@ -8,7 +8,7 @@
 PRODUCT_NAME = hello_dribbble
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.helloDribbble
+PRODUCT_BUNDLE_IDENTIFIER = hello_dribbble
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2020 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2020 Roman Cinis. All rights reserved.
